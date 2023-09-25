@@ -1,0 +1,21 @@
+[project]
+name="esis"
+authors = [
+    {name="Daniel Knüttel", email="daniel.knuettel@physik.uni-regensburg.de"}
+]
+description = "Easy SLURM Isolated Scanner"
+requires-python=">=3.6"
+readme="README.rst"
+dependencies=["docopt"]
+
+version="0.0.1"
+
+[project.urls]
+repository="https://github.com/daknuett/esis"
+homepage="https://github.com/daknuett/esis"
+
+[project.scripts]
+esis = "esis.main:main"
+[build-system]
+requires = ["meson", "toml", "ninja", "meson-python"]
+build-backend = 'mesonpy'

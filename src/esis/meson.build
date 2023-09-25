@@ -1,0 +1,8 @@
+python.install_sources(
+  '__init__.py', 'main.py'
+  , 'const.py', 'run.py', 'setup.py', 'status.py'
+  , 'dependency.py'
+  , pure: true
+  , subdir: 'esis'
+)
+
