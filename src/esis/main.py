@@ -6,16 +6,16 @@
 #                    ------------------------------------                      #
 ================================================================================
 
-Sets up slurm-based workflows and submits them. Run `esis2 --help` or `esis2 doc`
+Sets up slurm-based workflows and submits them. Run `esis --help` or `esis doc`
 for information.
 
 Usage: 
-    esis2 --help 
-    esis2 doc
-    esis2 setup <setupscript> <sbatchtemplate> <workerscript> <param_generator> [<parameter_include> ...] [options]
-    esis2 run [<workflowfile>] [options]
-    esis2 require <requirementworkflowfile> <requirementname> [<workflowfile>]
-    esis2 dependency [<workflowfile>]
+    esis --help 
+    esis doc
+    esis setup <setupscript> <sbatchtemplate> <workerscript> <param_generator> [<parameter_include> ...] [options]
+    esis run [<workflowfile>] [options]
+    esis require <requirementworkflowfile> <requirementname> [<workflowfile>]
+    esis dependency [<workflowfile>]
 
 Options:
     -h --help                                   display this help message

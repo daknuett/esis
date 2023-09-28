@@ -29,14 +29,14 @@ To keep these requirements, ESIS2 works as such:
     - to run the workflow, ESIS2 will go to ``<workdir>/cwd`` and execute 
       ``sbatch ../sbatch.sh``
     - if the workflow requires other workflows, that can be added by running 
-      ``esis2 require``
+      ``esis require``
     - the ``<workdir>``s of the requirements will be passed to the generator 
       as a JSON encoded environment variable.
 
 Requirements
 ============
 
-- once a requirement has been added, esis2 will check if it has to be re-run 
+- once a requirement has been added, esis will check if it has to be re-run 
   before the current workflow can be run 
 - the workdirs of the requirements will be passed to the generator scripts as 
   ``ESIS2_REQUIREMENTS`` environment variable
