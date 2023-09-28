@@ -12,8 +12,8 @@ for information.
 Usage: 
     esis --help 
     esis doc
-    esis setup <setupscript> <sbatchtemplate> <workerscript> <param_generator> [<parameter_include> ...] [options]
-    esis run [<workflowfile>] [options]
+    esis setup <setupscript> <sbatchtemplate> <workerscript> <param_generator> [<parameter_include> ...] [ -o <workflowfileout> ] [ -m <maxparallel> ] [ --workdir-path <workdir-path> ]
+    esis run [<workflowfile>]
     esis require <requirementworkflowfile> <requirementname> [<workflowfile>]
     esis dependency [<workflowfile>]
 
