@@ -10,17 +10,17 @@ def read_workdir(pth):
     # FIXME: legacy
     if(os.path.exists(os.path.join(pth, "jobid.tx"))):
         with open(os.path.join(pth, "jobid.tx")) as fin:
-            data["jobid"] = fin.read()
+            data["jobid"] = fin.read().strip()
     if(os.path.exists(os.path.join(pth, "wf_starttime"))):
         with open(os.path.join(pth, "wf_starttime")) as fin:
-            data["starttime"] = fin.read()
+            data["starttime"] = fin.read().strip()
 
     if(os.path.exists(os.path.join(pth, "__esis__", "jobid.tx"))):
         with open(os.path.join(pth, "__esis__", "jobid.tx")) as fin:
-            data["jobid"] = fin.read()
+            data["jobid"] = fin.read().strip()
     if(os.path.exists(os.path.join(pth, "__esis__", "wf_starttime"))):
         with open(os.path.join(pth, "__esis__", "wf_starttime")) as fin:
-            data["starttime"] = fin.read()
+            data["starttime"] = fin.read().strip()
 
     if("jobid" not in data):
         data["jobid"] = "0"
@@ -35,7 +35,7 @@ def list_workdirs(arguments):
         path = arguments["<list-path>"]
 
     if(not os.path.exists(path)):
-        print("###>," path, "does not exist.")
+        print("###>", path, "does not exist.")
         sys.exit(1)
 
     try:
