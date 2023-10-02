@@ -12,17 +12,26 @@ for information.
 Usage: 
     esis --help 
     esis doc
-    esis setup <setupscript> <sbatchtemplate> <workerscript> <param_generator> [<parameter_include> ...] [ -o <workflowfileout> ] [ -m <maxparallel> ] [ --workdir-path <workdir-path> ]
+    esis setup <setupscript> <sbatchtemplate> <workerscript> <param_generator> [<parameter_include> ...] [options]
     esis run [<workflowfile>]
     esis require <requirementworkflowfile> <requirementname> [<workflowfile>]
     esis dependency [<workflowfile>]
+    esis list [<list-path>] [options]
 
-Options:
+Global Options:
     -h --help                                   display this help message
+
+Setup Options:
     -o --workflow-out=<workflowfileout>         set the used workflow file [default: ./wf.esis2.json]
     -m --max-parallel=<maxparallel>             maximum number of parallel slurm array jobs [default: 10]
     --workdir-path=<workdir-path>               directory in which workdirs will be created [default: none]
 
+List Options:
+    --by-time                                   List by workflow start time.
+    --by-jobid                                  List by workflow jobid.
+    --grep                                      Output as single lines that can be used in combination with grep.
+
+When both `--by-time` and `--by-jobid` are specified, sorting is done by time.
 """
 
 import docopt
