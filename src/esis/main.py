@@ -52,6 +52,7 @@ from .status import (get_wf_status
                      , get_wf_run_exits)
 from .run import run, run_workflow
 from .dependency import dependency_run
+from .list_workdirs import list_workdirs
 
 def main():
     args = docopt.docopt(__doc__)
@@ -71,6 +72,9 @@ def main():
     if(args["dependency"]):
         dependency_run(args)
         
+    if(args["list"]):
+        list_workdirs(args)
+
 
 
     print("+------------------------------------------------------------------------------+")

@@ -29,7 +29,7 @@ def read_workdir(pth):
 
     return data
 
-def list(arguments):
+def list_workdirs(arguments):
     path = "."
     if(arguments["<list-path>"] is not None):
         path = arguments["<list-path>"]
