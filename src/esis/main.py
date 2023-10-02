@@ -43,16 +43,16 @@ import hashlib
 import shutil
 import subprocess
 
-from .const import doc
-from .setup import setup_wf, add_requirement
-from .status import (get_wf_status
+from .cmd.const import doc
+from .cmd.setup import setup_wf, add_requirement
+from .cmd.status import (get_wf_status
                      , get_wf_status_file_content
                      , get_workdir_name
                      , get_workdir
                      , get_wf_run_exits)
-from .run import run, run_workflow
-from .dependency import dependency_run
-from .list_workdirs import list_workdirs
+from .cmd.run import run, run_workflow
+from .cmd.dependency import dependency_run
+from .cmd.list_workdirs import list_workdirs
 
 def main():
     args = docopt.docopt(__doc__)
