@@ -70,4 +70,4 @@ def list_workdirs(arguments):
             print(wdi["jobid"], end="\t")
         print(wdi["path"])
 
-    return len(wdi)
+    return len(workdir_info)
