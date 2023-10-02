@@ -6,7 +6,7 @@ authors = [
 description = "Easy SLURM Isolated Scanner"
 requires-python=">=3.6"
 readme="README.rst"
-dependencies=["docopt"]
+dependencies=["docopt-ng"]
 
 version="0.0.2"
 
