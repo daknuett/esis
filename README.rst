@@ -1,6 +1,8 @@
 ESIS -- Easy SLURM Isolated Scanner
 ***********************************
 
+.. image:: https://zenodo.org/badge/696340026.svg
+   :target: https://zenodo.org/badge/latestdoi/696340026
 
 .. contents::
 
