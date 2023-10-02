@@ -3,6 +3,9 @@
 import os
 import sys
 import re
+import datetime
+
+from .const import dt_format_hr
 
 def read_workdir(pth):
     data = {"path": pth}
@@ -41,27 +44,27 @@ def list_workdirs(arguments):
     try:
         path_content = os.listdir(path)     
     except:
-        print("###> could not list,", path)
+        print("###> could not list", path)
         sys.exit(1)
 
     def filter_wd(pth):
         pattern = re.compile(r"wrkdir\.[a-f0-9]{64}/?")
         if(not pattern.match(os.path.basename(pth))):
             return False
-        if(not os.path.isdir(pth)):
+        if(not os.path.isdir(os.path.join(path, pth))):
             return False
         return True
 
 
     workdirs = filter(filter_wd, path_content)
 
-    workdir_info = [read_workdir(pth) for pth in workdirs]
+    workdir_info = [read_workdir(os.path.join(path, pth)) for pth in workdirs]
     workdir_info = list(sorted(workdir_info, key=lambda wdi: wdi["path"]))
 
     if(arguments["--by-jobid"]):
-        workdir_info = list(sorted(workdir_info, key=lambda wdi: wdi["jobid"]))
+        workdir_info = list(sorted(workdir_info, key=lambda wdi: int(wdi["jobid"])))
     if(arguments["--by-time"]):
-        workdir_info = list(sorted(workdir_info, key=lambda wdi: wdi["starttime"]))
+        workdir_info = list(sorted(workdir_info, key=lambda wdi: datetime.datetime.strptime(wdi["starttime"], dt_format_hr)))
 
     for wdi in workdir_info:
         if(arguments["--by-time"]):
