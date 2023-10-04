@@ -28,7 +28,8 @@ class Checkpoint:
                  , internal_storage_path
                  , chkpt_ok_fname
                  , workdir_name
-                 , ext_link_name):
+                 , ext_link_name
+                 , baseseed):
         self._name = name
         self._external_storage_path = external_storage_path
 
@@ -37,9 +38,24 @@ class Checkpoint:
         self._chkpt_ok_fname = chkpt_ok_fname
         self._workdir_name = workdir_name
         self._ext_link_name = ext_link_name
+        self._baseseed = baseseed
+
+    def get_seed(self) -> str:
+        if(isinstance(self._baseseed, int)):
+            baseseed = str(self._baseseed)
+        else:
+            baseseed = self._baseseed
+        return baseseed + self._name
+
+    def get_seed_int(self) -> int:
+        if(isinstance(self._baseseed, str)):
+            baseseed = sum(ord(i) for i in self._baseseed)
+        else:
+            baseseed = self._baseseed
+        return baseseed + sum(ord(i) for i in self._name)
 
     @classmethod 
-    def create(cls, name, workdir_root, external_storage_path):
+    def create(cls, name, workdir_root, external_storage_path, baseseed):
         if(cls.exists(name, workdir_root)):
             raise ValueError(f"checkpoint {name} exists.")
 
@@ -57,6 +73,7 @@ class Checkpoint:
                 , "external_storage_path": external_storage_path
                 , "workdir_name": os.path.basename(os.path.abspath(workdir_root))
                 , "external_link_name": cls.external_link_name
+                , "baseseed": baseseed
         }
 
         with open(os.path.join(internal_path, cls.meta_file_name), "w") as fout:
@@ -82,7 +99,8 @@ class Checkpoint:
                    , os.path.join(internal_path, meta["storage_rela"])
                    , os.path.join(internal_path, meta["state_OK_name"])
                    , meta["workdir_name"]
-                   , meta["ext_link_name"])
+                   , meta["ext_link_name"]
+                   , meta["baseseed"])
 
     
 

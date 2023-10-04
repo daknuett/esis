@@ -4,6 +4,7 @@ ESIS working directories and handling of checkpoints.
 """
 
 import os
+import typing
 
 from .checkpoint import Checkpoint
 
@@ -11,15 +12,16 @@ def get_default_external_storage_path():
     return f"/glurch/scratch/{os.environ['USER']}/esis_checkpoints"
 
 class ChkPtFacility:
-    def __init__(self, external_storage_path=get_default_external_storage_path()):
+    def __init__(self, baseseed:typing.Union[str, int], external_storage_path=get_default_external_storage_path()):
         self._workdir = ChkPtFacility.get_workdir()
         self._ext_storage_path = external_storage_path
+        self._baseseed = baseseed
 
     def has_checkpoint(self, name):
         return Checkpoint.is_OK(name, self._workdir)
 
     def create_checkpoint(self, name):
-        return Checkpoint.create(name, self._workdir, self._ext_storage_path)
+        return Checkpoint.create(name, self._workdir, self._ext_storage_path, self._baseseed)
 
     def set_run_OK(self):
         with open(os.path.join(self._workdir, "__esis__", "completed.state"), "w") as status_file:
