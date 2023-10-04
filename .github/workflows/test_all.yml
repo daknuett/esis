@@ -2,6 +2,9 @@ name: Test
 
 on: push
 
+env:
+  SLURM_CONF: /usr/local/etc/slurm.conf
+
 jobs:
   install-slurm:
     runs-on: ubuntu-latest
@@ -17,12 +20,20 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y slurm-wlm
-          cp esis_for_configfiles/.github/workflows/assets/slurm.conf /usr/local/etc/slurm.conf
-          cp esis_for_configfiles/.github/workflows/assets/cgroup.conf /usr/local/etc/cgroup.conf
+          cat esis_for_configfiles/.github/workflows/assets/slurm.conf | sed -e "s/main-kek/$(hostname)/" > esis_for_configfiles/.github/workflows/assets/slurm.conf
+          cat esis_for_configfiles/.github/workflows/assets/slurm.conf
+          sudo cp esis_for_configfiles/.github/workflows/assets/slurm.conf $SLURM_CONF
+          sudo cp esis_for_configfiles/.github/workflows/assets/cgroup.conf /usr/local/etc/cgroup.conf
+          #mkdir -p /usr/local/lib/slurm/
+          #ln -s /usr/lib64/slurm/auth_munge.so /usr/local/lib/slurm/auth_munge.so 
 
       - name: start slurm
         run: |
-          systemctl start slurmd slurmctld
+          echo "slurmctld..."
+          sudo slurmctld $SLURMCTLD_OPTIONS
+          echo "slurmd..."
+          sudo slurmd -d /usr/local/sbin/slurmstepd $SLURMD_OPTIONS
+          echo "sinfo..."
           sinfo
 
 
