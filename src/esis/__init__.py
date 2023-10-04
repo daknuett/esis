@@ -1,1 +1,1 @@
-import .checkpoint
+from . import checkpoint
