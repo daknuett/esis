@@ -1,0 +1,28 @@
+name: Test
+
+on: push
+
+jobs:
+  install-slurm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get slurm configfiles
+        uses: actions/checkout@v3
+        with: 
+          repository: daknuett/esis
+          path: esis_for_configfiles
+          branch: github_actions
+
+      - name: install slurm
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y slurm-wlm
+          cp esis_for_configfiles/.github/workflows/assets/slurm.conf /usr/local/etc/slurm.conf
+          cp esis_for_configfiles/.github/workflows/assets/cgroup.conf /usr/local/etc/cgroup.conf
+
+      - name: start slurm
+        run: |
+          systemctl start slurmd slurmctld
+          sinfo
+
+
