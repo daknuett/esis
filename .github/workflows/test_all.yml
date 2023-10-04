@@ -30,10 +30,10 @@ jobs:
       - name: start slurm
         run: |
           sudo systemctl start slurmctld slurmd
-          sudo systemctl status slurmctld
           sudo journalctl -u slurmctld
-          sudo systemctl status slurmd
+          sudo systemctl status slurmctld
           sudo journalctl -u slurmd
+          sudo systemctl status slurmd
           sinfo
 
 
