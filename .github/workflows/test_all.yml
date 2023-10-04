@@ -34,9 +34,9 @@ jobs:
           #echo "slurmd..."
           #sudo slurmd -d /usr/local/sbin/slurmstepd $SLURMD_OPTIONS
           #echo "sinfo..."
-          systemctl start slurmctld slurmd
-          systemctl status slurmd
-          journalctl -u slurmd
+          sudo systemctl start slurmctld slurmd
+          sudo systemctl status slurmd
+          sudo journalctl -u slurmd
           sinfo
 
 
