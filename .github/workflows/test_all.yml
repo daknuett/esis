@@ -3,7 +3,7 @@ name: Test
 on: push
 
 env:
-  SLURM_CONF: /usr/local/etc/slurm.conf
+  SLURM_CONF: /etc/slurm/slurm.conf
 
 jobs:
   install-slurm:
