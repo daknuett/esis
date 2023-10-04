@@ -29,7 +29,7 @@ jobs:
 
       - name: start slurm
         run: |
-          sudo systemctl start slurmctld slurmd
+          sudo systemctl start slurmctld slurmd || sudo cat /var/log/slurmctld.log
           sudo journalctl -u slurmctld
           sudo systemctl status slurmctld
           sudo journalctl -u slurmd
