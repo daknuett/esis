@@ -8,7 +8,7 @@ requires-python=">=3.6"
 readme="README.rst"
 dependencies=["docopt-ng"]
 
-version="0.0.2"
+version="0.0.3"
 
 [project.urls]
 repository="https://github.com/daknuett/esis"
