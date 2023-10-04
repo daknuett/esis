@@ -25,6 +25,9 @@ class ChkPtFacility:
         with open(os.path.join(self._workdir, "__esis__", "completed.state"), "w") as status_file:
             status_file.write("1")
 
+    def load_checkpoint(self, name):
+        return Checkpoint.load(name, self._workdir)
+
     @classmethod
     def get_workdir(cls):
         cwd = os.getcwd()
