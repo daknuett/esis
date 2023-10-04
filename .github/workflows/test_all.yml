@@ -29,12 +29,9 @@ jobs:
 
       - name: start slurm
         run: |
-          #echo "slurmctld..."
-          #sudo slurmctld $SLURMCTLD_OPTIONS
-          #echo "slurmd..."
-          #sudo slurmd -d /usr/local/sbin/slurmstepd $SLURMD_OPTIONS
-          #echo "sinfo..."
           sudo systemctl start slurmctld slurmd
+          sudo systemctl status slurmctld
+          sudo journalctl -u slurmctld
           sudo systemctl status slurmd
           sudo journalctl -u slurmd
           sinfo
