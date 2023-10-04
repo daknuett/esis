@@ -40,7 +40,7 @@ class ChkPtFacility:
         #      __esis__/  < you are looking for this.
 
         if(os.path.exists(os.path.join(cwd, "..", "__esis__"))):
-            return os.path.join(cwd, "..")
+            return os.path.abspath(os.path.join(cwd, ".."))
 
         # less common
         if(os.path.exists(os.path.join(cwd, "__esis__"))):

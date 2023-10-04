@@ -97,9 +97,9 @@ class Checkpoint:
                    , meta["external_storage_path"]
                    , internal_path
                    , os.path.join(internal_path, meta["storage_rela"])
-                   , os.path.join(internal_path, meta["state_OK_name"])
+                   , os.path.join(internal_path, meta["state_OK_file"])
                    , meta["workdir_name"]
-                   , meta["ext_link_name"]
+                   , meta["external_link_name"]
                    , meta["baseseed"])
 
     
