@@ -67,6 +67,10 @@ jobs:
           python -m pip install .
           cd ..
 
+      - name: install test dependencies
+        run: |
+          python -m pip install numpy
+
       - name: 01_simple_run
         run: |
           cd esis/
