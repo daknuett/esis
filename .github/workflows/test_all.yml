@@ -90,5 +90,33 @@ jobs:
           ls $wd/output/mass.1.npy
           ls $wd/output/mass.2.npy
           ls $wd/output/mass.3.npy
+          cd ../../..
 
 
+      - name: 02_dependencies
+        run: |
+          cd esis/
+          cd runnable_tests/02_dependencies/
+
+          cd A_prepare_data/
+          esis setup setup.sh sbatch_template.sh produce_data.py generate_parameters.py
+          cd ..
+          
+          cd B_analyze_data/
+          esis setup setup.sh sbatch_template.sh extract_data.py generate_parameters.py
+          esis require ../A_prepare_data/wf.esis.json
+
+          esis dependency
+
+
+          #while [[ $(squeue -o %j | grep "01_s") != "" ]]; do squeue; sinfo; sudo cat /var/log/slurmd.log; scontrol show node; sleep 1; done
+          while [[ $(squeue -o %j | grep "02_B_") != "" ]]; do squeue; sleep 1; done
+
+          wd=$(esis list | grep wrkdir)
+
+          ls $wd/output/mass.0.npy
+          ls $wd/output/mass.1.npy
+          ls $wd/output/mass.2.npy
+          ls $wd/output/mass.3.npy
+
+          cd ../../../..
