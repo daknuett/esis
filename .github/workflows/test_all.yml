@@ -43,10 +43,27 @@ jobs:
           repository: daknuett/esis
           path: esis
 
+  install-test-esis:
+    needs: install-slurm
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+
+    steps:
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+      - name: update pip 
+        run: |
+          python -m pip install --upgrade pip
       - name: install esis
         run: |
           cd esis
-          pip install .
+          python -m pip install .
           cd ..
 
       - name: 01_simple_run
