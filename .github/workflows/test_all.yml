@@ -29,9 +29,12 @@ jobs:
           cat esis_for_configfiles/.github/workflows/assets/slurm.conf
           sudo cp esis_for_configfiles/.github/workflows/assets/slurm.conf $SLURM_CONF
           sudo cp esis_for_configfiles/.github/workflows/assets/cgroup.conf /usr/local/etc/cgroup.conf
+          sudo cp esis_for_configfiles/.github/workflows/assets/cgroup.conf /etc/slurm/cgroup.conf
           sudo mkdir -p /var/run/slurm/state/slurmd
           sudo chown slurm:slurm -R /var/run/slurm
           sudo chown slurm:slurm $SLURM_CONF
+          sudo chown slurm:slurm /etc/slurm/cgroup.conf
+          cat /etc/slurm/cgroup.conf
 
       - name: start slurm
         run: |
