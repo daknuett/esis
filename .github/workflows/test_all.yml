@@ -81,9 +81,14 @@ jobs:
           ./setup_example.sh
           esis setup setup.sh sbatch_template.sh extract_mass.py generate_parameters.py
           esis run
-          esis list
-          squeue
-          scontrol show node
 
+          while [[ $(squeue -o %j | grep "01_s") != "" ]]; do squeue; sleep 1; done
+
+          wd=$(esis list | grep wrkdir)
+
+          ls $wd/output/mass.0.npy
+          ls $wd/output/mass.1.npy
+          ls $wd/output/mass.2.npy
+          ls $wd/output/mass.3.npy
 
 
