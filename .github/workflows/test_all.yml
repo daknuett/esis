@@ -19,7 +19,6 @@ jobs:
         with: 
           repository: daknuett/esis
           path: esis_for_configfiles
-          branch: github_actions
 
       - name: install slurm
         run: |
