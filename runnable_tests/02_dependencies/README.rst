@@ -14,8 +14,8 @@ To run the example:
    cd ..
    
    cd B_analyze_data/
-   esis setup setup.sh sbatch_template.sh extract_data.py generate_parameters.py
-   esis require ../A_prepare_data/wf.esis.json
+   esis setup setup.sh sbatch_template.sh extract_mass.py generate_parameters.py
+   esis require ../A_prepare_data/wf.esis.json data_generation
 
    esis dependency
 
