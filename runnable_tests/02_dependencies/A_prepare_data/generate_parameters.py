@@ -3,11 +3,11 @@
 import json
 
 omegas = [1, 2.3, 2.4, 2.5] 
+masses = [1.2, 1.2, 2.2, 2.2]
 
-for i,o in enumerate(omegas):
-    parameters = {"omega": 1
-                  , "data_path": data_path
-                  , "file": f
+for i, (o,m) in enumerate(zip(omegas, masses)):
+    parameters = {"omega": o
+                  , "mass": m
                   , "out_path": f"../output/data.{i}.npy"
                   }
 

@@ -21,7 +21,7 @@ out_path = parameters["out_path"]
 nt = 10
 nconfigs = 100_000
 
-omega = 1 
+omega = parameters["omega"] 
 var = 1 / (2. * omega * mass)
 
 data = np.random.normal(loc=0, scale=np.sqrt(var), size=(nt, nconfigs))
