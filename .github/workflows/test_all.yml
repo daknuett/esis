@@ -24,12 +24,13 @@ jobs:
           cat esis_for_configfiles/.github/workflows/assets/slurm.conf
           sudo cp esis_for_configfiles/.github/workflows/assets/slurm.conf $SLURM_CONF
           sudo cp esis_for_configfiles/.github/workflows/assets/cgroup.conf /usr/local/etc/cgroup.conf
-          #mkdir -p /usr/local/lib/slurm/
-          #ln -s /usr/lib64/slurm/auth_munge.so /usr/local/lib/slurm/auth_munge.so 
+          sudo mkdir -p /var/run/slurm/state/slurmd
+          sudo chown slurm:slurm -R /var/run/slurm
+          sudo chown slurm:slurm $SLURM_CONF
 
       - name: start slurm
         run: |
-          sudo systemctl start slurmctld slurmd || sudo cat /var/log/slurmctld.log
+          sudo systemctl start slurmctld slurmd 
           sudo journalctl -u slurmctld
           sudo systemctl status slurmctld
           sudo journalctl -u slurmd
