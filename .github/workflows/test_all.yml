@@ -38,10 +38,10 @@ jobs:
       - name: start slurm
         run: |
           sudo systemctl start slurmctld slurmd 
-          sudo journalctl -u slurmctld
-          sudo systemctl status slurmctld
-          sudo journalctl -u slurmd
-          sudo systemctl status slurmd
+          #sudo journalctl -u slurmctld
+          #sudo systemctl status slurmctld
+          #sudo journalctl -u slurmd
+          #sudo systemctl status slurmd
           sinfo
           scontrol show node
           while [[ $(sinfo | grep unk) != "" ]]; do echo "node state unk"; sudo cat /var/log/slurmd.log; sleep 1; done
@@ -81,7 +81,8 @@ jobs:
           esis setup setup.sh sbatch_template.sh extract_mass.py generate_parameters.py
           esis run
 
-          while [[ $(squeue -o %j | grep "01_s") != "" ]]; do squeue; sinfo; sudo cat /var/log/slurmd.log; scontrol show node; sleep 1; done
+          #while [[ $(squeue -o %j | grep "01_s") != "" ]]; do squeue; sinfo; sudo cat /var/log/slurmd.log; scontrol show node; sleep 1; done
+          while [[ $(squeue -o %j | grep "01_s") != "" ]]; do squeue; sleep 1; done
 
           wd=$(esis list | grep wrkdir)
 
