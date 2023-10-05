@@ -82,7 +82,7 @@ jobs:
           esis setup setup.sh sbatch_template.sh extract_mass.py generate_parameters.py
           esis run
 
-          while [[ $(squeue -o %j | grep "01_s") != "" ]]; do squeue; sleep 1; done
+          while [[ $(squeue -o %j | grep "01_s") != "" ]]; do squeue; sinfo; scontrol show node; sleep 1; done
 
           wd=$(esis list | grep wrkdir)
 
