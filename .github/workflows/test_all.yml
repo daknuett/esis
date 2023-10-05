@@ -42,7 +42,7 @@ jobs:
           sudo systemctl status slurmd
           sinfo
           scontrol show node
-          while [[ $(sinfo | grep unk) != "" ]]; do echo "node state ukn"; sleep 1; done
+          while [[ $(sinfo | grep unk) != "" ]]; do echo "node state unk"; sudo cat /var/log/slurmd.log; sleep 1; done
           sinfo
           scontrol show node
 
