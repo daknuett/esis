@@ -37,4 +37,26 @@ jobs:
           sudo systemctl status slurmd
           sinfo
 
+      - name: get esis
+        uses: actions/checkout@v3
+        with: 
+          repository: daknuett/esis
+          path: esis
+
+      - name: install esis
+        run: |
+          cd esis
+          pip install .
+          cd ..
+
+      - name: 01_simple_run
+        run: |
+          cd esis/
+          cd runnable_tests/01_simple_run/
+          ./setup_example.sh
+          esis setup setup.sh sbatch_template.sh extract_mass.py generate_parameters.py
+          esis run
+          esis list
+
+
 
