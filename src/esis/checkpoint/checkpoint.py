@@ -149,3 +149,92 @@ class Checkpoint:
         fname = os.path.join(self._internal_path, self._chkpt_ok_fname)
         with open(fname, "w") as fout:
             print("1",file=fout)
+
+class IterativeCheckpoint(Checkpoint):
+    def __init__(self
+                 , name
+                 , external_storage_path
+                 , internal_path
+                 , internal_storage_path
+                 , chkpt_ok_fname
+                 , workdir_name
+                 , ext_link_name
+                 , baseseed
+                 , iteration):
+        self._name = name
+        self._external_storage_path = external_storage_path
+
+        self._internal_path = internal_path
+        self._internal_storage_path = internal_storage_path
+        self._chkpt_ok_fname = chkpt_ok_fname
+        self._workdir_name = workdir_name
+        self._ext_link_name = ext_link_name
+        self._baseseed = baseseed
+        self._iteration = iteration
+
+    def get_seed(self) -> str:
+        if(isinstance(self._baseseed, int)):
+            baseseed = str(self._baseseed)
+        else:
+            baseseed = self._baseseed
+        return baseseed + self._name + f"{self._iteration}"
+
+    def get_seed_int(self) -> int:
+        if(isinstance(self._baseseed, str)):
+            baseseed = sum(ord(i) for i in self._baseseed)
+        else:
+            baseseed = self._baseseed
+        return baseseed + sum(ord(i) for i in self._name) + self._iteration
+
+    @classmethod 
+    def create(cls, name, workdir_root, external_storage_path, baseseed):
+        if(cls.exists(name, workdir_root)):
+            raise ValueError(f"checkpoint {name} exists.")
+
+        internal_path = os.path.join(workdir_root, cls.checkpoint_dir, name)
+        storage_path = os.path.join(internal_path, cls.storage_dir)
+        os.makedirs(storage_path)
+
+        now = datetime.datetime.now()
+        meta = {
+                "__type__": cls.__name__
+                , "created_on": now.strftime(dt_format_hr)
+                , "original_internal": internal_path
+                , "storage_rela": cls.storage_dir
+                , "state_OK_file": cls.state_OK_name
+                , "external_storage_path": external_storage_path
+                , "workdir_name": os.path.basename(os.path.abspath(workdir_root))
+                , "external_link_name": cls.external_link_name
+                , "baseseed": baseseed
+                , "iteration": 0
+        }
+
+        with open(os.path.join(internal_path, cls.meta_file_name), "w") as fout:
+            json.dump(meta, fout)
+
+        return cls.load(name, workdir_root)
+    
+
+    @classmethod
+    def load(cls, name, workdir_root):
+        if(not cls.exists(name, workdir_root)):
+            raise ValueError(f"checkpoint {name} does not exist.")
+
+        internal_path = os.path.join(workdir_root, cls.checkpoint_dir, name)
+        meta_file = os.path.join(internal_path, cls.meta_file_name)
+
+        with open(meta_file) as fin:
+            meta = json.load(fin)
+
+        return cls(name
+                   , meta["external_storage_path"]
+                   , internal_path
+                   , os.path.join(internal_path, meta["storage_rela"])
+                   , os.path.join(internal_path, meta["state_OK_file"])
+                   , meta["workdir_name"]
+                   , meta["external_link_name"]
+                   , meta["baseseed"]
+                   , meta["iteration"])
+
+    
+
