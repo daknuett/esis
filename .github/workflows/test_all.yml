@@ -139,3 +139,22 @@ jobs:
           python ../check_results.py
 
           cd ../../../..
+
+      - name: 04_iterative_checkpointing
+        run: |
+          cd esis/
+          cd runnable_tests/04_iterative_checkpointing
+
+          esis setup setup.sh sbatch_template.sh train_operator.py generate_parameters.py
+          esis run
+          wd=$(esis list | grep wrkdir)
+          cd $wd
+          while [[ $(squeue -o %j | grep "04_it") != "" ]]; do squeue; sleep 1; done
+
+          cat cwd/slurm*
+          pwd
+          ls
+          ls __checkpoints__
+          python ../check_results.py
+
+          cd ../../../..
