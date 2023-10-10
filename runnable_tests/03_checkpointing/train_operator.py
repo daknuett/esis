@@ -83,6 +83,7 @@ nout = parameters["nout"]
 
 l = Layer(nin, nout)
 W = l.random_weights()
+model = Model(l)
 
 nepochs = parameters["nepochs"]
 
