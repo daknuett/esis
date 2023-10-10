@@ -7,7 +7,7 @@ Run
 
 .. code:: sh
 
-   esis setup setup.sh sbatch_template.sh check_results.py generate_parameters.py
+   esis setup setup.sh sbatch_template.sh train_operator.py generate_parameters.py
    esis run
    wd=$(esis list | grep wrkdir)
    cd $wd
