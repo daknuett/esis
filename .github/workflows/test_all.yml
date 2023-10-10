@@ -132,6 +132,9 @@ jobs:
           cd $wd
           while [[ $(squeue -o %j | grep "03_ch") != "" ]]; do squeue; sleep 1; done
 
+          pwd
+          ls
+          ls __checkpoints__
           python ../check_results.py
 
           cd ../../../..
