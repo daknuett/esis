@@ -86,7 +86,7 @@ W = l.random_weights()
 
 nepochs = parameters["nepochs"]
 
-chkpts = esis.checkpoint.checkpoint_facility(parameters["seed"])    
+chkpts = esis.checkpoint.checkpoint_facility(parameters["baseseed"])    
 save_every = 10
 save_name = "weights.npy"    
 training_checkpoint_names = "trained_weights_"    
