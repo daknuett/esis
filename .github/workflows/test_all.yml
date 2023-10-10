@@ -120,3 +120,18 @@ jobs:
           ls $wd/output/mass.3.npy
 
           cd ../../../..
+
+      - name: 03_checkpointing
+        run: |
+          cd esis/
+          cd runnable_tests/03_checkpointing
+
+          esis setup setup.sh sbatch_template.sh check_results.py generate_parameters.py
+          esis run
+          wd=$(esis list | grep wrkdir)
+          cd $wd
+          while [[ $(squeue -o %j | grep "03_de") != "" ]]; do squeue; sleep 1; done
+
+          python ../check_results.py
+
+          cd ../../../..
