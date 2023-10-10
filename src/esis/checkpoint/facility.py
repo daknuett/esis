@@ -31,7 +31,7 @@ class ChkPtFacility:
         return Checkpoint.load(name, self._workdir)
 
     def has_iterative_checkpoint(self, name):
-        return IterativeCheckpoint.exists(name, self,_workdir)
+        return IterativeCheckpoint.exists(name, self._workdir)
 
     def create_iterative_checkpoint(self, name):
         return IterativeCheckpoint.create(name, self._workdir, self._ext_storage_path, self._baseseed)
