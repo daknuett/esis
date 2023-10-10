@@ -186,6 +186,24 @@ class IterativeCheckpoint(Checkpoint):
             baseseed = self._baseseed
         return baseseed + sum(ord(i) for i in self._name) + self._iteration
 
+    def get_iteration(self):
+        return self._iteration
+
+    def get_latest(self, data_name, store_external=False): 
+        return self.get_file_name(data_name, store_external)
+
+    def set_iteration(self, iteration):
+        meta_file = os.path.join(self._internal_path, self.__class__.meta_file_name)
+        with open(meta_file) as fin:
+            meta = json.load(fin)
+        meta["iteration"] = iteration
+        self._iteration = iteration
+
+        with open(meta_file, "w") as fout:
+            json.dump(meta, fout)
+        
+
+
     @classmethod 
     def create(cls, name, workdir_root, external_storage_path, baseseed):
         if(cls.exists(name, workdir_root)):
@@ -235,6 +253,3 @@ class IterativeCheckpoint(Checkpoint):
                    , meta["external_link_name"]
                    , meta["baseseed"]
                    , meta["iteration"])
-
-    
-

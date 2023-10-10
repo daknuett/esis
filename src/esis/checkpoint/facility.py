@@ -6,7 +6,7 @@ ESIS working directories and handling of checkpoints.
 import os
 import typing
 
-from .checkpoint import Checkpoint
+from .checkpoint import Checkpoint, IterativeCheckpoint
 
 def get_default_external_storage_path():
     return f"/glurch/scratch/{os.environ['USER']}/esis_checkpoints"
@@ -29,6 +29,18 @@ class ChkPtFacility:
 
     def load_checkpoint(self, name):
         return Checkpoint.load(name, self._workdir)
+
+    def has_iterative_checkpoint(self, name):
+        return IterativeCheckpoint.exists(name, self,_workdir)
+
+    def create_iterative_checkpoint(self, name):
+        return IterativeCheckpoint.create(name, self._workdir, self._ext_storage_path, self._baseseed)
+
+    def iterative_checkpoint_is_finished(self, name):
+        return IterativeCheckpoint.is_OK(name, self._workdir)
+
+    def open_iterative(self, name):
+        return IterativeCheckpoint.load(name, self._workdir)
 
     @classmethod
     def get_workdir(cls):
