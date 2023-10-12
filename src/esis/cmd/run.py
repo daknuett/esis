@@ -9,6 +9,9 @@ import subprocess
 from .status import get_workdir_name, get_workdir, get_wf_run_exits, get_wf_status_file_content
 from .const import dt_format_hr, df_format_m
 
+def re_run(workdirname):
+
+
 def run_workflow(wf_in_name, afterok=[], independency=False):
     if(not os.path.exists(wf_in_name)):
         print("===> FATAL: missing input workflow:", wf_in_name)
@@ -16,10 +19,12 @@ def run_workflow(wf_in_name, afterok=[], independency=False):
 
     workdirname = get_workdir_name(wf_in_name)
     run_exists = get_wf_run_exits(wf_in_name)
-    if(run_exists == 2):
-        print("###> STATUS: workdir already exists:", workdirname)
-        print("###> to re-run, rotate the workdir")
+    if(run_exists == 2  or run_exists == 4):
         if(not independency):
+            print("###> STATUS: workdir already exists:", workdirname)
+            print("###> to re-run, rotate the workdir")
+            if(run_exists == 4):
+                print("###> WARNING: job still running")
             sys.exit(0)
         with open(os.path.join(get_workdir, wf_in_name), "__esis__", "jobid.tx") as fin:
             return fin.read()
@@ -27,6 +32,9 @@ def run_workflow(wf_in_name, afterok=[], independency=False):
         print("###> STATUS: workdir already exists:", workdirname)
         print("###> to re-run, rotate the workdir")
         sys.exit(0)
+    elif(run_exists == 3):
+        print("###> STATUS: workflow did not complete. Re-running.")
+        return re_run(workdirname)
 
 
     with open(wf_in_name, "r") as fin:

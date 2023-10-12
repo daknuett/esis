@@ -2,6 +2,7 @@ import os
 import json
 import hashlib
 import subprocess
+import re
 
 def get_wf_status(workflowfile):
     with open(workflowfile, "r") as fin:
@@ -74,8 +75,10 @@ def get_wf_run_exits(workflowfile, parent_wfpath=None):
     """
     Returns 0, if the run does not exist.
     Returns 1, if the run directory exists, but it is uncertain, if the 
-                workflow completed.
+                workflow completed. (run was invoked by old version of esis).
     Returns 2, if the workflow completed.
+    Returns 3, if the workflow did not complete.
+    Returns 4, if the workflow is still running.
     """
     if(parent_wfpath is None or os.path.isabs(workflowfile)):
         wff = workflowfile
@@ -84,6 +87,23 @@ def get_wf_run_exits(workflowfile, parent_wfpath=None):
     wd = get_workdir(wff)
     if not os.path.exists(wd):
         return 0
-    if(not os.path.exists(os.path.join(wd, "__esis__", "completed.state"))):
+    if(not os.path.exists(os.path.join(wd, "__esis__"))):
         return 1
+    if(not os.path.exists(os.path.join(wd, "__esis__", "completed.state"))):
+        if not os.path.exists(os.path.join(wd, "__esis__", "jobid.tx")):
+            return 1
+        with open(os.path.join(wd, "__esis__", "jobid.tx")) as fin:
+            jobid = fin.read().strip()
+
+            process = subprocess.run(["scontrol", "show", "job", jobid]
+                                     , stdout=subprocess.PIPE
+                                     , stderr=subprocess.PIPE)
+            if(process.returncode != 0):
+                return 1
+            jobstate = process.stdout.decode("UTF-8")
+            if("JobState=PENDING" in jobstate
+               or "JobState=RUNNING" in jobstate):
+                return 4
+            return 3
+            
     return 2
