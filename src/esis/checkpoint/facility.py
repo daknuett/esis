@@ -12,10 +12,19 @@ def get_default_external_storage_path():
     return f"/glurch/scratch/{os.environ['USER']}/esis_checkpoints"
 
 class ChkPtFacility:
-    def __init__(self, baseseed:typing.Union[str, int], external_storage_path=get_default_external_storage_path()):
-        self._workdir = ChkPtFacility.get_workdir()
+    def __init__(self, baseseed:typing.Union[str, int], external_storage_path=get_default_external_storage_path(), overwrite_path=None):
+        if(overwrite_path is not None):
+            self._workdir = ChkPtFacility.get_workdir()
+        else:
+            self._workdir = overwrite_path
         self._ext_storage_path = external_storage_path
         self._baseseed = baseseed
+
+    @classmethod
+    def open_external(cls, extpath):
+        if(not os.path.exists(extpath)):
+            raise FileNotFoundError(f"external path '{extpath}' does not exist")
+        return cls("", overwrite_path=extpath)
 
     def has_checkpoint(self, name):
         return Checkpoint.is_OK(name, self._workdir)
