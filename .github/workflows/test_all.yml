@@ -172,7 +172,10 @@ jobs:
           esis require ../A_train/wf.esis2.json trained_weights
 
           esis dependency
-          while [[ $(squeue -o %j | grep "05_B_") != "" ]]; do squeue; cat */cwd/*.out || echo "waiting"; cat ../*/cwd/*.out || echo "waiting"; sleep 1; done
+          ls
+          ls wrkdir*
+          ls ../A_train/wrkdir*
+          while [[ $(squeue -o %j | grep "05_B_") != "" ]]; do squeue; cat */cwd/*.out || echo "waiting"; cat ../A_train/*/cwd/*.out || echo "waiting"; sleep 1; done
 
           wd=$(esis list | grep wrkdir)
 
