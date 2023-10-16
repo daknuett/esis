@@ -1,5 +1,5 @@
-03 Checkpointing
-****************
+04 Iterative Checkpointing
+**************************
 
 Illustrates basic usage of iterative checkpointing.
 
