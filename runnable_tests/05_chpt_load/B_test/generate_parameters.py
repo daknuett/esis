@@ -15,7 +15,7 @@ for i,a in enumerate(alphas):
             , "nout": 5
             , "baseseed": 0xdeadbeef
             , "weight_id": i # This is just the slurm task id, does not really matter.
-            , "trained_weight_path": trained_weight_path
+            , "trained_weights": trained_weight_path
     }
     with open(f"parameters.{i}.json", "w") as fout:
         json.dump(parameters, fout)
