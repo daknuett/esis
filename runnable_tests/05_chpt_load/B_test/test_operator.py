@@ -22,5 +22,5 @@ one += np.diag(np.ones_like(dg))
 
 error = np.sum((W - one)**2)
 
-np.savetxt(f"error.{parameters['weight_id']}.csv", error)
-    
+with open(f"error.{parameters['weight_id']}.csv", "w") as fout:
+    print(f"{error:.5f}", file=fout)
