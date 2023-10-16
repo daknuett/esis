@@ -166,6 +166,7 @@ jobs:
 
           cd A_train
           esis setup setup.sh sbatch_template.sh train_operator.py generate_parameters.py
+          cd ..
           cd B_test
           esis setup setup.sh sbatch_template.sh test_operator.py generate_parameters.py
           esis require ../A_train/wf.esis2.json trained_weights
