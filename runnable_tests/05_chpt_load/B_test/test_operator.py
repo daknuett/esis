@@ -18,8 +18,7 @@ W = np.load(checkpoint.get_file_name("weights.npy"))
 
 one = np.zeros_like(W)
 dg = np.diag(one)
-dg += 1
-one = np.diag(dg)
+one += np.diag(np.ones_like(dg))
 
 error = np.sum((W - one)**2)
 
