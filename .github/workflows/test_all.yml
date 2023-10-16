@@ -180,10 +180,10 @@ jobs:
           ls ../A_train/wrkdir*
           ls ../A_train/wrkdir*/cwd
           echo "----"
-          while [[ $(squeue -o %j | grep "05_B_") != "" ]]; do squeue; cat wrkdir/cwd/* || echo "waiting"; cat ../A_train/wrkdir*/cwd/* || echo "waiting"; sleep 1; done
+          while [[ $(squeue -o %j | grep "05_B_") != "" ]]; do squeue; cat wrkdir*/cwd/* || echo "waiting"; cat ../A_train/wrkdir*/cwd/* || echo "waiting"; sleep 1; done
 
           wd=$(esis list | grep wrkdir)
-          cat ../wrkdir*/cwd/*
+          cat ../A_train/wrkdir*/cwd/*
           cat $wd/cwd/*
 
           ls $wd/cwd/error.0.csv
