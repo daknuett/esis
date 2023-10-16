@@ -173,11 +173,18 @@ jobs:
 
           esis dependency
           ls
+          echo "----"
           ls wrkdir*
+          ls wrkdir*/cwd
+          echo "----"
           ls ../A_train/wrkdir*
-          while [[ $(squeue -o %j | grep "05_B_") != "" ]]; do squeue; cat */cwd/*.out || echo "waiting"; cat ../A_train/*/cwd/*.out || echo "waiting"; sleep 1; done
+          ls ../A_train/wrkdir*/cwd
+          echo "----"
+          while [[ $(squeue -o %j | grep "05_B_") != "" ]]; do squeue; cat wrkdir/cwd/* || echo "waiting"; cat ../A_train/wrkdir*/cwd/* || echo "waiting"; sleep 1; done
 
           wd=$(esis list | grep wrkdir)
+          cat ../wrkdir*/cwd/*
+          cat $wd/cwd/*
 
           ls $wd/cwd/error.0.csv
           ls $wd/cwd/error.1.csv
