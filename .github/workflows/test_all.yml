@@ -165,10 +165,10 @@ jobs:
           cd runnable_tests/05_chpt_load/
 
           cd A_train
-          esis setup setup.sh sbatch_template.sh train_operator.py generate_parameters.py
+          esis setup setup.sh sbatch_template.sh train_operator.py generate_parameters.py ../includes/alphas.json
           cd ..
           cd B_test
-          esis setup setup.sh sbatch_template.sh test_operator.py generate_parameters.py
+          esis setup setup.sh sbatch_template.sh test_operator.py generate_parameters.py ../includes/alphas.json
           esis require ../A_train/wf.esis2.json trained_weights
 
           esis dependency
