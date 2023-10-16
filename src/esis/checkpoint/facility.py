@@ -13,7 +13,7 @@ def get_default_external_storage_path():
 
 class ChkPtFacility:
     def __init__(self, baseseed:typing.Union[str, int], external_storage_path=get_default_external_storage_path(), overwrite_path=None):
-        if(overwrite_path is not None):
+        if(overwrite_path is None):
             self._workdir = ChkPtFacility.get_workdir()
         else:
             self._workdir = overwrite_path
