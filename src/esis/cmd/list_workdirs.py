@@ -6,6 +6,7 @@ import re
 import datetime
 
 from .const import dt_format_hr
+from .status import get_workdir_name
 
 def read_workdir(pth):
     data = {"path": pth}
@@ -55,8 +56,20 @@ def list_workdirs(arguments):
             return False
         return True
 
+    def filter_wff(pth):
+        pattern1 = re.compile(r"wf\.esis2.?.json")
+        pattern2 = re.compile(r"wf\.bwfmitm2?\.json")
+        if(not (pattern1.match(os.path.basename(pth))
+                or pattern2.match(os.path.basename(pth)))):
+            return False
+        if(not os.path.isfile(os.path.join(path, pth))):
+            return False
+        return True
 
     workdirs = filter(filter_wd, path_content)
+    wf_files = filter(filter_wff, path_content)
+
+    current_names = [get_workdir_name(f) for f in wf_files]
 
     workdir_info = [read_workdir(os.path.join(path, pth)) for pth in workdirs]
     workdir_info = list(sorted(workdir_info, key=lambda wdi: wdi["path"]))
@@ -71,6 +84,12 @@ def list_workdirs(arguments):
             print(wdi["starttime"], end="\t")
         if(arguments["--by-jobid"]):
             print(wdi["jobid"], end="\t")
-        print(wdi["path"])
+        prefix = ""
+        postfix = ""
+        for cn in current_names:
+            if cn in wdi["path"]:
+                prefix = "\033[93;4m"
+                postfix = "\033[0m"
+        print(f'{prefix}{wdi["path"]}{postfix}')
 
     return len(workdir_info)
