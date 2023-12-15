@@ -90,7 +90,7 @@ nepochs = parameters["nepochs"]
 chkpts = esis.checkpoint.checkpoint_facility(parameters["baseseed"])    
 save_every = 10
 save_name = "weights.npy"    
-training_checkpoint_name = "weight_training"    
+training_checkpoint_name = f"weight_training_{taskid}"
      
 if(chkpts.has_iterative_checkpoint(training_checkpoint_name)):    
     checkpoint = chkpts.open_iterative(training_checkpoint_name)
