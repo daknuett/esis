@@ -6,6 +6,10 @@ ESIS -- Easy SLURM Isolated Scanner
 
 .. image:: https://github.com/daknuett/esis/actions/workflows/test_all.yml/badge.svg
 
+.. image:: https://www.nfdi.de/wp-content/uploads/2021/12/PUNCH4NFDI-Logo_RGB.png 
+   :target: https://www.nfdi.de/punch4nfdi/
+   :scale: 20%
+
 .. contents::
 
 For the Inpatient
