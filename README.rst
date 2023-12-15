@@ -8,7 +8,7 @@ ESIS -- Easy SLURM Isolated Scanner
 
 .. image:: https://www.nfdi.de/wp-content/uploads/2021/12/PUNCH4NFDI-Logo_RGB.png 
    :target: https://www.nfdi.de/punch4nfdi/
-   :width: 240px
+   :width: 50px
 
 .. contents::
 
