@@ -94,6 +94,7 @@ training_checkpoint_name = "weight_training"
      
 if(chkpts.has_iterative_checkpoint(training_checkpoint_name)):    
     checkpoint = chkpts.open_iterative(training_checkpoint_name)
+    W = np.load(checkpoint.get_file_name(save_name))
 else:
     checkpoint = chkpts.create_iterative_checkpoint(training_checkpoint_name)
 
