@@ -79,6 +79,13 @@ def list_workdirs(arguments):
     if(arguments["--by-time"]):
         workdir_info = list(sorted(workdir_info, key=lambda wdi: datetime.datetime.strptime(wdi["starttime"], dt_format_hr)))
 
+    if sys.stdout.isatty():
+        fancy_prefix = "\033[93;4m"
+        fancy_postfix = "\033[0m"
+    else:
+        fancy_prefix = ""
+        fancy_postfix = ""
+
     for wdi in workdir_info:
         if(arguments["--by-time"]):
             print(wdi["starttime"], end="\t")
@@ -88,8 +95,8 @@ def list_workdirs(arguments):
         postfix = ""
         for cn in current_names:
             if cn in wdi["path"]:
-                prefix = "\033[93;4m"
-                postfix = "\033[0m"
+                prefix = fancy_prefix
+                postfix = fancy_postfix
         print(f'{prefix}{wdi["path"]}{postfix}')
 
     return len(workdir_info)
