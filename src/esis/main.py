@@ -14,10 +14,11 @@ Usage:
     esis doc
     esis setup <setupscript> <sbatchtemplate> <workerscript> <param_generator> [<parameter_include> ...] [options]
     esis run [<workflowfile>]
-    esis require <requirementworkflowfile> <requirementname> [<workflowfile>]
+    esis require <requirementworkflowfile> <requirementname> [<workflowfile>] [--workflow-out]
     esis dependency [<workflowfile>]
     esis list [<list-path>] [options]
     esis list-requirements [<workflowfile>]
+    esis freeze-requirement <requirementname> <requirementhash> [<workflowfile>] [--workflow-out]
 
 Global Options:
     -h --help                                   display this help message
@@ -54,7 +55,7 @@ from .cmd.status import (get_wf_status
 from .cmd.run import run, run_workflow
 from .cmd.dependency import dependency_run
 from .cmd.list_workdirs import list_workdirs
-from .cmd.requirements import list_requirements
+from .cmd.requirements import list_requirements, freeze_requirement
 
 def main():
     args = docopt.docopt(__doc__)
@@ -80,6 +81,8 @@ def main():
     if(args["list-requirements"]):
         list_requirements(args)
 
+    if args["freeze-requirement"]:
+        freeze_requirement(args)
 
 
     print("+------------------------------------------------------------------------------+")

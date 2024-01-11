@@ -7,6 +7,39 @@ from collections import defaultdict
 
 from .status import get_workdir_name, get_workdir, get_wf_run_exits, get_wf_status_file_content
 
+
+def freeze_requirements(arguments):
+    wf_in_name = arguments["<workflowfile>"]
+    if wf_in_name is None:
+        wf_in_name = arguments["--workflow-out"]
+
+    if not os.path.exists(wf_in_name):
+        print("===> FATAL: missing input workflow:", wf_in_name)
+        sys.exit(1)
+
+    with open(wf_in_name, "r") as fin:
+        workflow = json.load(fin)
+
+    reqs_by_name = {v:k for k,v in workflow["requires_names"]}
+    
+    if arguments["<requirementname>"] not in reqs_by_name:
+        print(f"===> FATAL: requirement {arguments['<requirementname>']} not registered")
+        sys.exit(1)
+
+    if len(arguments["<requirementhash>"]) != 64:
+        print("---> WARNING: hash has length != 64.")
+
+    if "freezes" not in workflow:
+        workflow["freezes"] = {}
+
+    workflow["freezes"][reqs_by_name[arguments["<requirementname>"]]] = arguments["<requirementhash>"]
+
+    with open(arguments["--workflow-out"], "w") as out:
+        json.dump(workflow, out)
+
+    print("---> wrote workflow file", arguments["--workflow-out"])
+
+
 def list_requirements(arguments):
     wf_in_name = arguments["<workflowfile>"]
     if(wf_in_name is None):
