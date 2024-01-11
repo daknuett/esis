@@ -27,7 +27,6 @@ def get_wf_status(workflowfile):
     if "freeze_requirements" in workflow:
         freezes.update(workflow["freezes"])
 
-    print("requires:", workflow["requires"])
     status["requires"] = [(req, freezes[req]) for req in workflow["requires"]]
 
     return status
@@ -37,9 +36,7 @@ def get_wf_status_file_content(workflowfile):
     wf_path = os.path.dirname(os.path.abspath(workflowfile))
 
     requires = {}
-    print("requires:", status["requires"])
     for req, frz in status["requires"]:
-        print("req:", req)
         if frz is None:
             if(not os.path.isabs(req)):
                 req_path = os.path.join(wf_path, req)
@@ -51,8 +48,7 @@ def get_wf_status_file_content(workflowfile):
 
     test_files = ["setupscript", "sbatchtemplate", "workerscript", "param_generator"]
     include_names = list(sorted(status["param_includes"].keys()))
-    requires_names = list(sorted(status["requires"]))
-    print("req_names:", requires_names)
+    requires_names = list(sorted(map(lambda x: x[0], status["requires"])))
 
     all_tags = test_files + include_names + requires_names 
     all_content = {tf: status[tf] for tf in test_files}
