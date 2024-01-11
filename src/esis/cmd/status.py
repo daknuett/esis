@@ -27,6 +27,7 @@ def get_wf_status(workflowfile):
     if "freeze_requirements" in workflow:
         freezes.update(workflow["freezes"])
 
+    print("requires:", workflow["requires"])
     status["requires"] = [(req, freezes[req]) for req in workflow["requires"]]
 
     return status
@@ -36,6 +37,7 @@ def get_wf_status_file_content(workflowfile):
     wf_path = os.path.dirname(os.path.abspath(workflowfile))
 
     requires = {}
+    print("requires:", status["requires"])
     for req, frz in status["requires"]:
         print("req:", req)
         if frz is None:
