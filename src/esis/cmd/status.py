@@ -37,6 +37,7 @@ def get_wf_status_file_content(workflowfile):
 
     requires = {}
     for req, frz in status["requires"]:
+        print("req:", req)
         if frz is None:
             if(not os.path.isabs(req)):
                 req_path = os.path.join(wf_path, req)
