@@ -52,10 +52,13 @@ def get_workdir_name(workflowfile):
     return f"wrkdir.{wf_status}"
 
 
-def get_workdir(workflowfile, parent_wfpath=None):
+def get_workdir(workflowfile, parent_wfpath=None, freeze=None):
     if(not (parent_wfpath is None or os.path.isabs(workflowfile))):
         workflowfile = os.path.join(parent_wfpath, workflowfile)
-    workdirname = get_workdir_name(workflowfile)
+    if freeze is None:
+        workdirname = get_workdir_name(workflowfile)
+    else:
+        workdirname = f"wrkdir.{freeze}"
 
     with open(workflowfile, "r") as fin:
         workflow = json.load(fin)
@@ -70,7 +73,7 @@ def get_workdir(workflowfile, parent_wfpath=None):
     return full_workdir
 
 
-def get_wf_run_exits(workflowfile, parent_wfpath=None):
+def get_wf_run_exits(workflowfile, parent_wfpath=None, freeze=None):
     """
     Returns 0, if the run does not exist.
     Returns 1, if the run directory exists, but it is uncertain, if the 
@@ -81,7 +84,15 @@ def get_wf_run_exits(workflowfile, parent_wfpath=None):
         wff = workflowfile
     else:
         wff = os.path.join(parent_wfpath, workflowfile)
-    wd = get_workdir(wff)
+
+    if freeze is None:
+        wd = get_workdir(wff)
+    else:
+        # FIXME: this machinery is very unelegant.
+        wd = get_workdir(wff)
+        wdroot = os.path.pardir(wd)
+        wd = os.path.join(wdroot, f"wrkdir.{freeze}")
+        
     if not os.path.exists(wd):
         return 0
     if(not os.path.exists(os.path.join(wd, "__esis__", "completed.state"))):

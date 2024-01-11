@@ -6,6 +6,8 @@ import hashlib
 import shutil
 import subprocess
 
+from collections import defaultdict
+
 from .status import get_workdir_name, get_workdir, get_wf_run_exits, get_wf_status_file_content
 from .const import dt_format_hr, df_format_m
 
@@ -35,7 +37,11 @@ def run_workflow(wf_in_name, afterok=[], independency=False):
     wf_path = os.path.dirname(os.path.abspath(wf_in_name))
 
 
-    missing_requirements = [req  for req in workflow["requires"] if not get_wf_run_exits(req, parent_wfpath=wf_path)]
+    # XXX: Use frozen dependencies
+    freezes = defaultdict(type(None))
+    if "freeze_requirements" in workflow:
+        freezes.update(workflow["freezes"])
+    missing_requirements = [req  for req in workflow["requires"] if not get_wf_run_exits(req, parent_wfpath=wf_path, freeze=freezes[req])]
     if(len(missing_requirements)):
         print("<### STATUS: MISSING REQUIREMENTS")
         print("<### The following requirements have pending changes:")
@@ -84,7 +90,8 @@ def run_workflow(wf_in_name, afterok=[], independency=False):
     print("---> copied includes")
 
     
-    requirement_dirs = {name: get_workdir(req_wf, parent_wfpath=wf_path) for req_wf, name in workflow["requires_names"].items()}
+    # XXX: Use frozen dependencies
+    requirement_dirs = {name: get_workdir(req_wf, parent_wfpath=wf_path, freeze=freezes[req_wf]) for req_wf, name in workflow["requires_names"].items()}
     requirement_dirs = json.dumps(requirement_dirs)
 
 
