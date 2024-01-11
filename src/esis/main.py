@@ -14,11 +14,11 @@ Usage:
     esis doc
     esis setup <setupscript> <sbatchtemplate> <workerscript> <param_generator> [<parameter_include> ...] [options]
     esis run [<workflowfile>]
-    esis require <requirementworkflowfile> <requirementname> [<workflowfile>] [--workflow-out]
+    esis require <requirementworkflowfile> <requirementname> [<workflowfile>] [-o <workflowfileout> ]
     esis dependency [<workflowfile>]
     esis list [<list-path>] [options]
     esis list-requirements [<workflowfile>]
-    esis freeze-requirement <requirementname> <requirementhash> [<workflowfile>] [--workflow-out]
+    esis freeze-requirement <requirementname> <requirementhash> [<workflowfile>] [-o <workflowfileout> ]
 
 Global Options:
     -h --help                                   display this help message
