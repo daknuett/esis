@@ -20,7 +20,7 @@ def freeze_requirement(arguments):
     with open(wf_in_name, "r") as fin:
         workflow = json.load(fin)
 
-    reqs_by_name = {v:k for k,v in workflow["requires_names"]}
+    reqs_by_name = {v:k for k,v in workflow["requires_names"].items()}
     
     if arguments["<requirementname>"] not in reqs_by_name:
         print(f"===> FATAL: requirement {arguments['<requirementname>']} not registered")
