@@ -29,12 +29,15 @@ def get_wf_status_file_content(workflowfile):
     wf_path = os.path.dirname(os.path.abspath(workflowfile))
 
     requires = {}
-    for req in status["requires"]:
-        if(not os.path.isabs(req)):
-            req_path = os.path.join(wf_path, req)
+    for req, frz in status["requires"]:
+        if frz is None:
+            if(not os.path.isabs(req)):
+                req_path = os.path.join(wf_path, req)
+            else:
+                req_path = req
+            requires[req] = hashlib.sha256(get_wf_status_file_content(req_path).encode("UTF-8")).hexdigest()
         else:
-            req_path = req
-        requires[req] = hashlib.sha256(get_wf_status_file_content(req_path).encode("UTF-8")).hexdigest()
+            requires[req] = frz
 
     test_files = ["setupscript", "sbatchtemplate", "workerscript", "param_generator"]
     include_names = list(sorted(status["param_includes"].keys()))
