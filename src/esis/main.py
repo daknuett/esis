@@ -78,7 +78,7 @@ def main():
         list_workdirs(args)
 
     if(args["list-requirements"]):
-        list_workdirs(args)
+        list_requirements(args)
 
 
 
