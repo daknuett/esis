@@ -52,6 +52,7 @@ def get_wf_status_file_content(workflowfile):
     test_files = ["setupscript", "sbatchtemplate", "workerscript", "param_generator"]
     include_names = list(sorted(status["param_includes"].keys()))
     requires_names = list(sorted(status["requires"]))
+    print("req_names:", requires_names)
 
     all_tags = test_files + include_names + requires_names 
     all_content = {tf: status[tf] for tf in test_files}
