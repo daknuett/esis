@@ -48,9 +48,13 @@ def list_requirements(arguments):
     label_exists = {True: "y", False: "n"}
     label_fixed = {True: "Y", False: "N"}
 
-    output_lengths = [max(map(len, out)) for out in output[:-2]]
+    output_lengths = [list(map(len, out[:-2])) for out in output]
+    if(len(output) > 0):
+        output_lengths = [max((v[i] for v in output_lengths)) for i in range(len(output[0][:-2]))]
+    else:
+        output_lengths = []
     def getpad2(string, lenp):
-        return string + (" " * (lenp - len(str)))
+        return string + (" " * (lenp - len(string)))
 
     for reqname, req, reqdir, reqexist, reqfixed in output:
         print(fancy_prefix_e[reqexist], end="")
@@ -61,4 +65,3 @@ def list_requirements(arguments):
         print(label_exists[reqexist] + " ", end="")
         print(label_fixed[reqfixed] + " ", end="")
         print(fancy_postfix)
-
