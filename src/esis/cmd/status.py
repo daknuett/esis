@@ -3,6 +3,8 @@ import json
 import hashlib
 import subprocess
 
+from collections import defaultdict
+
 def get_wf_status(workflowfile):
     with open(workflowfile, "r") as fin:
         workflow = json.load(fin)
