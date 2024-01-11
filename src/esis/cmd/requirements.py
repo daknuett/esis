@@ -8,7 +8,7 @@ from collections import defaultdict
 from .status import get_workdir_name, get_workdir, get_wf_run_exits, get_wf_status_file_content
 
 
-def freeze_requirements(arguments):
+def freeze_requirement(arguments):
     wf_in_name = arguments["<workflowfile>"]
     if wf_in_name is None:
         wf_in_name = arguments["--workflow-out"]
