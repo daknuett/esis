@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import json
+import sys
 
 from collections import defaultdict
 
@@ -15,6 +16,7 @@ def list_requirements(arguments):
         print("===> FATAL: missing input workflow:", wf_in_name)
         sys.exit(1)
 
+    wf_path = os.path.dirname(os.path.abspath(wf_in_name))
     with open(wf_in_name, "r") as fin:
         workflow = json.load(fin)
 
