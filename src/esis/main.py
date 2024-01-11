@@ -17,6 +17,7 @@ Usage:
     esis require <requirementworkflowfile> <requirementname> [<workflowfile>]
     esis dependency [<workflowfile>]
     esis list [<list-path>] [options]
+    esis list-requirements [<workflowfile>]
 
 Global Options:
     -h --help                                   display this help message
@@ -53,6 +54,7 @@ from .cmd.status import (get_wf_status
 from .cmd.run import run, run_workflow
 from .cmd.dependency import dependency_run
 from .cmd.list_workdirs import list_workdirs
+from .cmd.requirements import list_requirements
 
 def main():
     args = docopt.docopt(__doc__)
@@ -73,6 +75,9 @@ def main():
         dependency_run(args)
         
     if(args["list"]):
+        list_workdirs(args)
+
+    if(args["list-requirements"]):
         list_workdirs(args)
 
 
