@@ -20,7 +20,12 @@ def get_wf_status(workflowfile):
             include_status[include] = hashlib.sha256(fin.read()).hexdigest()
 
     status["param_includes"] = include_status
-    status["requires"] = workflow["requires"]
+
+    freezes = defaultdict(type(None))
+    if "freeze_requirements" in workflow:
+        freezes.update(workflow["freezes"])
+
+    status["requires"] = [(req, freezes[req]) for req in workflow["requires"]]
 
     return status
 
