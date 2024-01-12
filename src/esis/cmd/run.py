@@ -40,7 +40,7 @@ def run_workflow(wf_in_name, afterok=[], independency=False):
     # XXX: Use frozen dependencies
     freezes = defaultdict(type(None))
     if "freeze_requirements" in workflow:
-        freezes.update(workflow["freezes"])
+        freezes.update(workflow["freeze_requirements"])
     missing_requirements = [req  for req in workflow["requires"] if not get_wf_run_exits(req, parent_wfpath=wf_path, freeze=freezes[req])]
     if(len(missing_requirements)):
         print("<### STATUS: MISSING REQUIREMENTS")

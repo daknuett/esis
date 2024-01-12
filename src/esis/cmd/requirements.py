@@ -29,10 +29,10 @@ def freeze_requirement(arguments):
     if len(arguments["<requirementhash>"]) != 64:
         print("---> WARNING: hash has length != 64.")
 
-    if "freezes" not in workflow:
-        workflow["freezes"] = {}
+    if "freeze_requirements" not in workflow:
+        workflow["freeze_requirements"] = {}
 
-    workflow["freezes"][reqs_by_name[arguments["<requirementname>"]]] = arguments["<requirementhash>"]
+    workflow["freeze_requirements"][reqs_by_name[arguments["<requirementname>"]]] = arguments["<requirementhash>"]
 
     with open(arguments["--workflow-out"], "w") as out:
         json.dump(workflow, out)
