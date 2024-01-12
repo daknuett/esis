@@ -100,7 +100,7 @@ def get_wf_run_exits(workflowfile, parent_wfpath=None, freeze=None):
     else:
         # FIXME: this machinery is very unelegant.
         wd = get_workdir(wff)
-        wdroot = os.path.pardir(wd)
+        wdroot = os.path.dirname(wd)
         wd = os.path.join(wdroot, f"wrkdir.{freeze}")
         
     if not os.path.exists(wd):
