@@ -25,7 +25,7 @@ def get_wf_status(workflowfile):
 
     freezes = defaultdict(type(None))
     if "freeze_requirements" in workflow:
-        freezes.update(workflow["freezes"])
+        freezes.update(workflow["freeze_requirements"])
 
     status["requires"] = [(req, freezes[req]) for req in workflow["requires"]]
 
