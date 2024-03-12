@@ -47,7 +47,13 @@ def run_workflow(wf_in_name, afterok=[], independency=False):
         print("<### The following requirements have pending changes:")
         for req in missing_requirements:
             print("<---", req)
-            print("<--- missing:", get_workdir_name(req))
+            if freezes[req] is None:
+                print("<--- missing:", get_workdir_name(req))
+            else:
+                print("<--- requirement is FROZEN to:", freezes[req])
+                print("<--- this frozen requirement is missing")
+                print("<--- current (non-frozen) requirement would be:", get_workdir_name(req))
+
         print("<### Automatic requirement running is currently not supported.")
         print("<### Run the workflows manually.")
         sys.exit(1)
