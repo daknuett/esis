@@ -218,9 +218,11 @@ in the block of sbatch settings.
 
 Extended features, like checkpointing are currently unsupported, see `Todos`_.
 
+Dependencies can be frozen using ``esis freeze-requirement``, see ``esis --help``.
+Then only this exact working directory is used and other versions are ignored.
+
 Todos
 =====
 
-- Implement freezing of dependencies.
 - Implement export of workflow results.
 - Implement ``libesis`` to handle checkpointing and exporting of workflow results.

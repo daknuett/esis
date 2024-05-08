@@ -38,11 +38,12 @@ Requirements
 
 - once a requirement has been added, esis will check if it has to be re-run 
   before the current workflow can be run 
+- when using ``esis freeze-requirement`` the requirement can be frozen to one 
+  specific hash
 - the workdirs of the requirements will be passed to the generator scripts as 
   ``ESIS2_REQUIREMENTS`` environment variable
 - currently unsupported are:
-    - automatic running of required workflows
-    - freezing of requirements
+    - automatic running of required workflows (unless using ``esis dependency``)
 
 Tips and Tricks
 ===============

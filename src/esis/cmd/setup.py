@@ -93,7 +93,7 @@ def add_requirement(arguments):
     workflow["requires_names"][wf_require_rela] = arguments["<requirementname>"]
 
             
-    with open(wf_in_name, "w") as out:
+    with open(arguments["--workflow-out"], "w") as out:
         json.dump(workflow, out)
 
-    print("---> wrote workflow file", wf_in_name)
+    print("---> wrote workflow file", arguments["--workflow-out"])

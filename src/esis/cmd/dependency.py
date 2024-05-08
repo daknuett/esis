@@ -44,6 +44,13 @@ def order_workflows(workflows, root):
 
 
 def run_workflow_graph(workflows, orig_wf_path):
+    # FIXME:
+    # At the moment I am not sure if this will work properly with 
+    # frozen dependencies. But the worst case is that some unused 
+    # runs will be made.
+    # Note that in any case, freezing may be incompatible with automatic 
+    # running, because there is no way to find what to run for a specific 
+    # freeze.
     for wf in workflows:
         workflows[wf]["jobid"] = None
 

@@ -3,6 +3,8 @@ import json
 import hashlib
 import subprocess
 
+from collections import defaultdict
+
 def get_wf_status(workflowfile):
     with open(workflowfile, "r") as fin:
         workflow = json.load(fin)
@@ -20,7 +22,12 @@ def get_wf_status(workflowfile):
             include_status[include] = hashlib.sha256(fin.read()).hexdigest()
 
     status["param_includes"] = include_status
-    status["requires"] = workflow["requires"]
+
+    freezes = defaultdict(type(None))
+    if "freeze_requirements" in workflow:
+        freezes.update(workflow["freeze_requirements"])
+
+    status["requires"] = [(req, freezes[req]) for req in workflow["requires"]]
 
     return status
 
@@ -29,16 +36,19 @@ def get_wf_status_file_content(workflowfile):
     wf_path = os.path.dirname(os.path.abspath(workflowfile))
 
     requires = {}
-    for req in status["requires"]:
-        if(not os.path.isabs(req)):
-            req_path = os.path.join(wf_path, req)
+    for req, frz in status["requires"]:
+        if frz is None:
+            if(not os.path.isabs(req)):
+                req_path = os.path.join(wf_path, req)
+            else:
+                req_path = req
+            requires[req] = hashlib.sha256(get_wf_status_file_content(req_path).encode("UTF-8")).hexdigest()
         else:
-            req_path = req
-        requires[req] = hashlib.sha256(get_wf_status_file_content(req_path).encode("UTF-8")).hexdigest()
+            requires[req] = frz
 
     test_files = ["setupscript", "sbatchtemplate", "workerscript", "param_generator"]
     include_names = list(sorted(status["param_includes"].keys()))
-    requires_names = list(sorted(status["requires"]))
+    requires_names = list(sorted(map(lambda x: x[0], status["requires"])))
 
     all_tags = test_files + include_names + requires_names 
     all_content = {tf: status[tf] for tf in test_files}
@@ -52,10 +62,13 @@ def get_workdir_name(workflowfile):
     return f"wrkdir.{wf_status}"
 
 
-def get_workdir(workflowfile, parent_wfpath=None):
+def get_workdir(workflowfile, parent_wfpath=None, freeze=None):
     if(not (parent_wfpath is None or os.path.isabs(workflowfile))):
         workflowfile = os.path.join(parent_wfpath, workflowfile)
-    workdirname = get_workdir_name(workflowfile)
+    if freeze is None:
+        workdirname = get_workdir_name(workflowfile)
+    else:
+        workdirname = f"wrkdir.{freeze}"
 
     with open(workflowfile, "r") as fin:
         workflow = json.load(fin)
@@ -70,7 +83,7 @@ def get_workdir(workflowfile, parent_wfpath=None):
     return full_workdir
 
 
-def get_wf_run_exits(workflowfile, parent_wfpath=None):
+def get_wf_run_exits(workflowfile, parent_wfpath=None, freeze=None):
     """
     Returns 0, if the run does not exist.
     Returns 1, if the run directory exists, but it is uncertain, if the 
@@ -81,7 +94,15 @@ def get_wf_run_exits(workflowfile, parent_wfpath=None):
         wff = workflowfile
     else:
         wff = os.path.join(parent_wfpath, workflowfile)
-    wd = get_workdir(wff)
+
+    if freeze is None:
+        wd = get_workdir(wff)
+    else:
+        # FIXME: this machinery is very unelegant.
+        wd = get_workdir(wff)
+        wdroot = os.path.dirname(wd)
+        wd = os.path.join(wdroot, f"wrkdir.{freeze}")
+        
     if not os.path.exists(wd):
         return 0
     if(not os.path.exists(os.path.join(wd, "__esis__", "completed.state"))):
