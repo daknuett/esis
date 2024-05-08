@@ -183,3 +183,38 @@ jobs:
 
 
           cd ../../../..
+
+
+      - name: 06_freeze_dependencies
+        run: |
+          cd esis/
+          cd runnable_tests/06_freeze_requirement/
+
+          cd A_prepare_data/
+          esis setup setup.sh sbatch_template.sh produce_data.py generate_parameters.py
+          esis run
+          while [[ $(squeue -o %j | grep "06_A_") != "" ]]; do squeue; sleep 1; done
+          dependency_hash=$(ls | grep wrkdir | cut -c 8- | tail -1)
+          echo "# trivial change" >> setup.sh
+
+          cd ..
+          
+          cd B_analyze_data/
+          esis setup setup.sh sbatch_template.sh extract_mass.py generate_parameters.py
+          esis require ../A_prepare_data/wf.esis2.json data_generation
+          esis freeze-requirement data_generation $dependency_hash
+
+          esis dependency
+
+
+          #while [[ $(squeue -o %j | grep "01_s") != "" ]]; do squeue; sinfo; sudo cat /var/log/slurmd.log; scontrol show node; sleep 1; done
+          while [[ $(squeue -o %j | grep "06_B_") != "" ]]; do squeue; sleep 1; done
+
+          wd=$(esis list | grep wrkdir)
+
+          ls $wd/output/mass.0.npy
+          ls $wd/output/mass.1.npy
+          ls $wd/output/mass.2.npy
+          ls $wd/output/mass.3.npy
+
+          cd ../../../..
