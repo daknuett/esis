@@ -1,4 +1,4 @@
-project('esis', version:'0.0.3')
+project('esis', version:'0.0.4')
 
 
 pymod = import('python')
