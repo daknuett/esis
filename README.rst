@@ -161,7 +161,7 @@ Setting up a workflow is as simple as running
 
 .. code-block:: sh
 
-   esis setup <setup script> <parameter generator> <sbatch template> <worker script> [<includes>]
+   esis setup <setup script> <sbatch template> <worker script> <parameter generator> [<includes>]
 
 This will generate the file ``wf.esis.json`` that contains everything that
 ``esis run`` will require. 
