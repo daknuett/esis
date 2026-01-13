@@ -82,6 +82,18 @@ def run_workflow(wf_in_name, afterok=[], independency=False):
 
     copy_files = ["setupscript", "workerscript", "param_generator"] 
     for cf in copy_files:
+        if len(os.path.dirname(cf)):
+            # If the file is in a sub-folder, this sub-folder must be created.
+            in_wd_path =  os.path.join(workflow_dir, os.path.dirname(cf))
+            in_wd_abspath = os.path.abspath(in_wd_path)
+            wd_abspath = os.path.abspath(workflow_dir)
+            if os.path.commonpath([wd_abspath]) != os.path.commonpath([wd_abspath, in_wd_abspath]):
+                print("===> FATAL: The file", cf, "would be copied to a location outside the workdir directory.")
+                print("===> FATAL: Ensure that all files are in either the current directory or sub-directories, not parent directories.")
+                print("===> FATAL: You will have to run esis setup again after moving the file.")
+                sys.exit(1)
+
+            os.makedirs(in_wd_path)
         shutil.copy(os.path.join(workflow_dir, workflow[cf])
                     , os.path.join(full_workdir, workflow[cf]))
 
