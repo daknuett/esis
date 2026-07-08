@@ -12,8 +12,8 @@ ESIS -- Easy SLURM Isolated Scanner
 
 .. contents::
 
-For the Inpatient
-=================
+For the ¬patient
+================
 
 - Run a workflow:
 
